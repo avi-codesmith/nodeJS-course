@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Details - {%BOOKNAME%}</title>
+  </head>
+  <style>
+    body {
+      background: linear-gradient(135deg, #d4f7d4, #9be59b);
+      /* min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px; */
+    }
+
+    /*DETAILS*/
+    .details {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .detail {
+      position: relative;
+      width: 90%;
+      max-width: 900px;
+
+      background: #ffffff;
+      border-left: 10px solid #2e7d32;
+      border-radius: 16px;
+
+      padding: 50px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+
+      text-align: center;
+
+      transition: 0.3s ease;
+    }
+
+    .detail:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(46, 125, 50, 0.3);
+    }
+
+    .heading {
+      font-size: 3.5rem;
+      color: #1b5e20;
+      margin-bottom: 20px;
+    }
+
+    .title {
+      font-size: 2rem;
+      color: #388e3c;
+      margin-bottom: 30px;
+    }
+
+    .description {
+      font-size: 1.3rem;
+      line-height: 2;
+      color: #555;
+    }
+
+    a {
+      position: absolute;
+      color: #388e3c;
+
+      left: 18px;
+      top: 18px;
+    }
+
+    button {
+      background-color: white;
+      cursor: pointer;
+      border-radius: 50%;
+      border: 1px solid #388e3c;
+      color: #388e3c;
+
+      height: 56px;
+      width: 56px;
+    }
+
+    @media (max-width: 768px) {
+      .detail {
+        padding: 30px;
+      }
+
+      .heading {
+        font-size: 2.5rem;
+      }
+
+      .title {
+        font-size: 1.6rem;
+      }
+
+      .description {
+        font-size: 1.1rem;
+        line-height: 1.8;
+      }
+    }
+  </style>
+  <body>
+    <div class="details">
+      <div class="detail">
+        <a href="/overview"><button>Back</button></a>
+        <h1 class="heading">{%BOOKNAME%}</h1>
+        <h3 class="title">{%BOOKTITLE%}</h3>
+        <p class="description">{%BOOKDESC%}</p>
+      </div>
+    </div>
+  </body>
+</html>

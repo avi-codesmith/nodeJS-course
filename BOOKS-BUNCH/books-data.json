@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "bookName": "📙 HTML",
+    "bookTitle": "The Structure of Web Pages",
+    "bookDesc": "Learn HTML from scratch, including elements, forms, tables, semantic tags, multimedia, and best practices for building web pages."
+  },
+  {
+    "id": 2,
+    "bookName": "📔 CSS",
+    "bookTitle": "Styling Modern Websites",
+    "bookDesc": "Master CSS with colors, typography, Flexbox, Grid, animations, transitions, and responsive web design techniques."
+  },
+  {
+    "id": 3,
+    "bookName": "📒 JavaScript",
+    "bookTitle": "Programming the Web",
+    "bookDesc": "Understand JavaScript fundamentals including variables, functions, arrays, objects, DOM manipulation, events, promises, and APIs."
+  },
+  {
+    "id": 4,
+    "bookName": "📗 Node.js",
+    "bookTitle": "Backend Development with Node.js",
+    "bookDesc": "Learn how to build fast and scalable server-side applications using Node.js, Express, file system, HTTP modules, and REST APIs."
+  },
+  {
+    "id": 5,
+    "bookName": "📘 React",
+    "bookTitle": "Building Interactive User Interfaces",
+    "bookDesc": "Create modern single-page applications using React, components, props, state, hooks, routing, and API integration."
+  },
+  {
+    "id": 6,
+    "bookName": "📓 MySQL",
+    "bookTitle": "Mastering Relational Databases",
+    "bookDesc": "Learn SQL queries, joins, indexes, normalization, transactions, stored procedures, and efficient database design."
+  }
+]

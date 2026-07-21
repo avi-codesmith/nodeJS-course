@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-course",
+  "version": "1.0.0",
+  "description": "mastering-nodejs",
+  "homepage": "https://github.com/avi-codesmith/nodeJS-course#readme",
+  "bugs": {
+    "url": "https://github.com/avi-codesmith/nodeJS-course/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avi-codesmith/nodeJS-course.git"
+  },
+  "license": "ISC",
+  "author": "Avi codesmith",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./node-farm/index.js"
+  },
+  "dependencies": {
+    "slugify": "~1.6.9"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Books Bunch</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #d4f7d4, #9be59b);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+      }
+
+      .homepage {
+        width: 100%;
+        max-width: 900px;
+      }
+
+      ul {
+        list-style: none;
+        margin-bottom: 1rem;
+      }
+
+      li {
+        background: #ffffff;
+        border-left: 8px solid #2e7d32;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        transition: 0.3s ease;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      li:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 30px rgba(46, 125, 50, 0.3);
+      }
+
+      h2 {
+        color: #1b5e20;
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+
+      h3 {
+        color: #388e3c;
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+      }
+
+      p {
+        color: #555;
+        line-height: 1.7;
+        margin-bottom: 25px;
+      }
+
+      button {
+        background: #2e7d32;
+        color: white;
+        border: none;
+        padding: 12px 28px;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button a {
+        color: white;
+        text-decoration: none;
+      }
+
+      button:hover {
+        background: #1b5e20;
+      }
+
+      @media (max-width: 768px) {
+        li {
+          padding: 20px;
+        }
+
+        h2 {
+          font-size: 1.6rem;
+        }
+
+        h3 {
+          font-size: 1.1rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="homepage">{%BOOKCARDS%}</div>
+  </body>
+</html>
