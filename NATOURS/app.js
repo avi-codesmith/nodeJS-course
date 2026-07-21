@@ -23,3 +23,26 @@ const port = 8000;
 app.listen(port, () => {
   console.log(`App running on port ${port}`);
 });
+
+//REST API DESIGN//
+
+// POST   | /tours/  |
+// GET    | /tours/2 |
+// PACH   | /tours/2 |
+// PUT    | /tours/2 |
+// DELETE | /tours/2 |
+
+/*
+
+ 👉 pathname or resource is always noun not verb
+    convention and easy to manage if we use noun
+
+ 👉 Rest api always be stateless, 
+     - Every request is independent.
+     - The server does NOT remember previous requests.
+     - Each request must contain everything needed 
+       (authentication token, body, parameters, etc.).
+       
+ 👉 API usually retrun JSON data.
+
+*/
