@@ -161,9 +161,10 @@ app.delete('/api/v1/tours/:id', (req, res) => {
     (err) => {
       if (err) return console.log(err);
 
-      res.status(201).json({
+      res.status(204).json({
         status: 'success',
         message: `Given tour has been deleted, id = ${id}`,
+        data: null,
       });
     },
   );
