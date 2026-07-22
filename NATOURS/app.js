@@ -1,28 +1,37 @@
 import express from 'express';
+import fs from 'fs';
 
 // Create an Express application
 const app = express();
 
+app.use(express.json());
+// We need this middleware to parse JSON data sent by the client (will available in req.body)
+// It make available data on server side
+// Without middleware sending data from client can't be happend
+
+//INTRODUCTION ==========================================================================================================================
+
 // Handle GET requests to the root route ('/')
-app.get('/', (req, res) => {
-  // Send a JSON response with HTTP status 200 (OK)
-  res.status(200).json({
-    message: 'Hello from the server side',
-    app: 'Natours',
-  });
-});
+// app.get('/', (req, res) => {
+//   // Send a JSON response with HTTP status 200 (OK)
+//   res.status(200).json({
+//     message: 'Hello from the server side',
+//     app: 'Natours',
+//   });
+// });
 
 // Handle POST requests to the root route ('/')
-app.post('/', (req, res) => {
-  res.status(200).send('You can post to this endpoint!');
-});
+// app.post('/', (req, res) => {
+//   res.status(200).send('You can post to this endpoint!');
+// });
 
-const port = 8000;
+// const port = 8000;
 
 // Start the server and listen for incoming requests
-app.listen(port, () => {
-  console.log(`App running on port ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`App running on port ${port}`);
+// });
+//
 
 //REST API DESIGN//
 
@@ -43,6 +52,66 @@ app.listen(port, () => {
      - Each request must contain everything needed 
        (authentication token, body, parameters, etc.).
        
- 👉 API usually retrun JSON data.
+ 👉 API usually, mostly retrun JSON data.
 
 */
+
+//NATOURS CODE ==========================================================================================================================
+
+const tours = JSON.parse(fs.readFileSync('./dev-data/data/tours-simple.json'));
+// We have to convert parse the data into Obj, bcz streams it is in text format
+
+app.get('/api/v1/tours', (req, res) => {
+  res.status(200).json({
+    status: 'success',
+    results: tours.length,
+    data: { tours },
+  });
+}); // Handle get request
+
+app.get('/api/v1/tours/:id', (req, res) => {
+  const id = req.params.id * 1; // for ex 2, 3, 5, 9, 1, 4
+
+  const tour = tours.find((tour) => tour.id === id);
+
+  // if (id > tours.length) {
+  if (!tour) {
+    return res.status(404).json({
+      status: 'failed',
+      data: `Invalid ID - ${id}`,
+    });
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { tour },
+  });
+}); // Handle get request on url parameters
+
+app.post('/api/v1/tours', (req, res) => {
+  const newID = tours[tours.length - 1].id + 1;
+  const newTour = Object.assign({ id: newID }, req.body);
+  console.log(newTour);
+  tours.push(newTour);
+
+  fs.writeFile(
+    './dev-data/data/tours-simple.json',
+    JSON.stringify(tours),
+    (err) => {
+      if (err) return console.log(err);
+
+      res.status(201).json({
+        status: 'success',
+        data: {
+          tour: newTour,
+        },
+      });
+    },
+  );
+}); // hanlde post request
+
+const port = 8000;
+
+app.listen(port, () => {
+  console.log(`App running on port ${port}`);
+});
