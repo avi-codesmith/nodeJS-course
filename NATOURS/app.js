@@ -1,13 +1,34 @@
 import express from 'express';
-import fs from 'fs';
+import morgan from 'morgan';
 
-// Create an Express application
-const app = express();
+import tourRouter from './routes/tourRoutes.js';
+import userRouter from './routes/userRoutes.js';
+
+export const app = express(); // Create an Express application
+
+//THIRD PARTY MIDDLEWARES IN PRACTISE ===================================================================================================================
+
+app.use(morgan('dev'));
+
+//MIDDLEWARES IN PRACTISE ===================================================================================================================
 
 app.use(express.json());
 // We need this middleware to parse JSON data sent by the client (will available in req.body)
 // It make available data on server side
 // Without middleware sending data from client can't be happend
+
+// some other middlewares
+// middleware follow code structure
+
+// app.use((req, res, next) => {
+//   console.log('Hello from the middleware');
+//   next(); // go to next middleware
+// });
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString(); // storing value to req object
+  next(); // go to next middleware, do not block the RRC
+});
 
 //INTRODUCTION ==========================================================================================================================
 
@@ -56,119 +77,9 @@ app.use(express.json());
 
 */
 
-//NATOURS CODE ==========================================================================================================================
+//NATOURS CODE (API HANDLING) ==========================================================================================================================
 
-let tours = JSON.parse(fs.readFileSync('./dev-data/data/tours-simple.json'));
-// We have to convert parse the data into Obj, bcz streams it is in text format
-
-const getAllTours = (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    results: tours.length,
-    data: { tours },
-  });
-};
-
-const getTourByID = (req, res) => {
-  const id = req.params.id * 1; // for ex 2, 3, 5, 9, 1, 4
-
-  const tour = tours.find((tour) => tour.id === id);
-
-  // if (id > tours.length) {
-  if (!tour) {
-    return res.status(404).json({
-      status: 'failed',
-      data: `Invalid ID - ${id}`,
-    });
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: { tour },
-  });
-};
-
-const addTour = (req, res) => {
-  const newID = tours[tours.length - 1].id + 1;
-  const newTour = Object.assign({ id: newID }, req.body);
-  console.log(newTour);
-  tours.push(newTour);
-
-  fs.writeFile(
-    './dev-data/data/tours-simple.json',
-    JSON.stringify(tours),
-    (err) => {
-      if (err) return console.log(err);
-
-      res.status(201).json({
-        status: 'success',
-        data: {
-          tour: newTour,
-        },
-      });
-    },
-  );
-};
-
-const updateTour = (req, res) => {
-  const id = req.params.id * 1;
-
-  if (id > tours.length) {
-    return res.status(404).json({
-      status: 'failed',
-      data: `Invalid ID - ${id}`,
-    });
-  }
-
-  const newData = req.body;
-  const reqTour = tours.find((tour) => tour.id === id);
-
-  const updatedTour = Object.assign(reqTour, newData);
-
-  tours.push(updatedTour);
-
-  fs.writeFile(
-    './dev-data/data/tours-simple.json',
-    JSON.stringify(tours),
-    (err) => {
-      if (err) return console.log(err);
-
-      res.status(201).json({
-        status: 'success',
-        data: {
-          tour: updatedTour,
-        },
-      });
-    },
-  );
-};
-
-const deleteTour = (req, res) => {
-  const id = req.params.id * 1;
-
-  if (id > tours.length) {
-    return res.status(404).json({
-      status: 'failed',
-      data: `Invalid ID - ${id}`,
-    });
-  }
-
-  tours = tours.filter((tour) => tour.id !== id);
-
-  fs.writeFile(
-    './dev-data/data/tours-simple.json',
-    JSON.stringify(tours),
-    (err) => {
-      if (err) return console.log(err);
-
-      res.status(204).json({
-        status: 'success',
-        message: `Given tour has been deleted, id = ${id}`,
-        data: null,
-      });
-    },
-  );
-};
+//MORE MIDDLEWARES ==========================================================================================================================
 
 // app.get('/api/v1/tours', getAllTours); // Handle get request
 // app.get('/api/v1/tours/:id', getTourByID); // Handle get request on url parameters
@@ -176,18 +87,18 @@ const deleteTour = (req, res) => {
 // app.patch('/api/v1/tours/:id', updateTour); // hanlde patch request
 // app.delete('/api/v1/tours/:id', deleteTour); // hanlde delete request
 
-// a better approach:
+app.use('/api/v1/tours/', tourRouter);
+app.use('/api/v1/users/', userRouter);
+// Mounting means attaching a router to the Express app at a base path,
+// so the router handles all the remaining routes after that base path.
 
-app.route('/api/v1/tours').get(getAllTours).post(addTour);
+/*MIDDLEWARE SUMMARY ==========================================================================================================================
 
-app
-  .route('/api/v1/tours/:id')
-  .get(getTourByID)
-  .patch(updateTour)
-  .delete(deleteTour);
-
-const port = 8000;
-
-app.listen(port, () => {
-  console.log(`App running on port ${port}`);
-});
+- Middlewares hanlde the incoming data from client side.
+- app.get(), app.use(), app.param are some middlewares
+- A buch of middleware is known as "Middleware Stack"
+- Execution of middlewares follow a order that we declare in our code
+- The process of sending request from client to server
+  and sending back response to client 
+  is known as "request-response cycle"
+*/
