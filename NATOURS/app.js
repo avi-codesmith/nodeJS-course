@@ -18,6 +18,7 @@ app.use(express.json());
 // Without middleware sending data from client can't be happend
 
 // some other middlewares
+app.use(express.static('./public'));
 // middleware follow code structure
 
 // app.use((req, res, next) => {

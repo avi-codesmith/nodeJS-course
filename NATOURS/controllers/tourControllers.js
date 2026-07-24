@@ -14,6 +14,20 @@ const checkID = (req, res, next, val) => {
   next();
 }; // param middleware handler or controller
 
+const checkData = (req, res, next) => {
+  const data = req.body || {};
+  console.log(req.body);
+  if (Object.keys(data).length === 0 || !data.name || !data.price) {
+    console.log(data);
+    return res.status(400).json({
+      status: 'failed',
+      message: 'Bad request',
+      data: null,
+    });
+  }
+  next();
+};
+
 const getAllTours = (req, res) => {
   console.log(req.requestTime); // getting stored value from req object
   res.status(200).json({
@@ -103,4 +117,12 @@ const deleteTour = (req, res) => {
   );
 };
 
-export { getAllTours, getTourByID, addTour, updateTour, deleteTour, checkID };
+export {
+  getAllTours,
+  getTourByID,
+  addTour,
+  updateTour,
+  deleteTour,
+  checkID,
+  checkData,
+};

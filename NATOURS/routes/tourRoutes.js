@@ -6,6 +6,7 @@ import {
   updateTour,
   deleteTour,
   checkID,
+  checkData,
 } from '../controllers/tourControllers.js';
 
 const app = express();
@@ -15,7 +16,7 @@ const router = express.Router();
 router.param('id', checkID); // param middleware for path variable - 'id'
 //  (seek for checkID to get more info)
 
-router.route('/').get(getAllTours).post(addTour); // this is also a middleware
+router.route('/').get(getAllTours).post(checkData, addTour); // this is also a middleware
 
 app.use((req, res, next) => {
   console.log('Hello from the middleware');
@@ -23,6 +24,10 @@ app.use((req, res, next) => {
 }); // middleware without any route specified
 // but still a part of the middleware stack, execute for all requests
 
-router.route('/:id').get(getTourByID).patch(updateTour).delete(deleteTour);
+router
+  .route('/:id')
+  .get(getTourByID)
+  .patch(checkData, updateTour) //changing handlers
+  .delete(deleteTour);
 
 export default router;
