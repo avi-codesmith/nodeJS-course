@@ -1,6 +1,18 @@
 import fs from 'fs';
 
 let tours = JSON.parse(fs.readFileSync('./dev-data/data/tours-simple.json'));
+// we get value parameter which tells about the value of the path variable in this "id"
+
+const checkID = (req, res, next, val) => {
+  if (val > tours.length) {
+    return res.status(404).json({
+      status: 'failed',
+      data: `Invalid ID - ${val}`,
+    });
+  }
+  console.log(`ID is ${val}`);
+  next();
+}; // param middleware handler or controller
 
 const getAllTours = (req, res) => {
   console.log(req.requestTime); // getting stored value from req object
@@ -16,14 +28,6 @@ const getTourByID = (req, res) => {
   const id = req.params.id * 1; // for ex 2, 3, 5, 9, 1, 4
 
   const tour = tours.find((tour) => tour.id === id);
-
-  // if (id > tours.length) {
-  if (!tour) {
-    return res.status(404).json({
-      status: 'failed',
-      data: `Invalid ID - ${id}`,
-    });
-  }
 
   res.status(200).json({
     status: 'success',
@@ -56,13 +60,6 @@ const addTour = (req, res) => {
 const updateTour = (req, res) => {
   const id = req.params.id * 1;
 
-  if (id > tours.length) {
-    return res.status(404).json({
-      status: 'failed',
-      data: `Invalid ID - ${id}`,
-    });
-  }
-
   const newData = req.body;
   const reqTour = tours.find((tour) => tour.id === id);
 
@@ -89,13 +86,6 @@ const updateTour = (req, res) => {
 const deleteTour = (req, res) => {
   const id = req.params.id * 1;
 
-  if (id > tours.length) {
-    return res.status(404).json({
-      status: 'failed',
-      data: `Invalid ID - ${id}`,
-    });
-  }
-
   tours = tours.filter((tour) => tour.id !== id);
 
   fs.writeFile(
@@ -113,4 +103,4 @@ const deleteTour = (req, res) => {
   );
 };
 
-export { getAllTours, getTourByID, addTour, updateTour, deleteTour };
+export { getAllTours, getTourByID, addTour, updateTour, deleteTour, checkID };
